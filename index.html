@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Anjali & Akshay — The Wedding Journal</title>
+
+  <!-- Google Web Fonts: Garamond (Serif), Ephesis (Handwritten Script), Plus Jakarta Sans (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Ephesis&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ==============================================
+       SESSION: AMBIENT BACKGROUND & AUDIO CONTROLS
+       - Full-screen looped video layer with particle overlay
+       - Canvas for floating golden dust animation
+       - Floating audio toggle button and HTML5 audio player
+       ============================================== -->
+  <video class="ambient-video" autoplay muted loop playsinline
+    poster="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80">
+    <source src="https://assets.mixkit.co/videos/preview/mixkit-floating-golden-particles-in-the-dark-32961-large.mp4"
+      type="video/mp4">
+  </video>
+
+  <canvas id="sparkleCanvas"></canvas>
+
+  <button id="audioControl" class="free-audio-disc" aria-label="Toggle Shehnai Music">
+    <i class="fa-solid fa-compact-disc"></i>
+    <span>Audio</span>
+  </button>
+  <audio id="weddingAudio" loop preload="auto">
+    <source
+      src="audio/echoes_of_lumen-krishna-flute-596320.mp3"
+      type="audio/mp3">
+  </audio>
+
+  <!-- ==============================================
+       SESSION 1: UNVEILING EDITORIAL ENVELOPE (GATE)
+       - Full-screen overlay acting as an interactive envelope
+       - Unveils the main card upon clicking and triggers audio
+       ============================================== -->
+       <div class="door-gate-overlay" id="openingGate">
+        <!-- Left Door Leaf -->
+        <div class="door-leaf door-left">
+          <div class="door-image-wrapper">
+            <img src="images/border1.jpg" alt="Groom / Temple Left" class="door-bg-img" />
+            <div class="door-gradient-mask"></div>
+          </div>
+          <div class="door-texture"></div>
+          <div class="door-handle left-handle"></div>
+        </div>
+    
+        <!-- Right Door Leaf -->
+        <div class="door-leaf door-right">
+          <div class="door-image-wrapper">
+            <img src="images/border2.jpg" alt="Bride / Temple Right" class="door-bg-img" />
+            <div class="door-gradient-mask"></div>
+          </div>
+          <div class="door-texture"></div>
+          <div class="door-handle right-handle"></div>
+        </div>
+    
+        <!-- Center Gate Card -->
+        <div class="gate-center-card" id="gateCenterCard">
+          <div class="shree-symbol">॥ ॐ श्री राधाकृष्णाभ्यां नमः ॥</div>
+          <div class="gate-title">Subha Kalyanam</div>
+          <div class="gate-subtitle">Akshay &amp; Anjali</div>
+          <p class="gate-invite-text">
+            We warmly invite you to witness our sacred union and shower your gracious blessings.
+          </p>
+          <button class="tap-btn" id="openInvitationBtn">
+            <i class="fa-solid fa-door-open" style="margin-right: 8px;"></i> Open Invitation
+          </button>
+        </div>
+      </div>
+  <!-- ==============================================
+       MAIN INVITATION WRAPPER
+       ============================================== -->
+  <main class="journal-wrapper">
+
+    <!-- Decorative floating tag -->
+
+
+    <!-- ==============================================
+         SESSION 2: FULL-SCREEN PARALLAX HERO STAGE
+         - 100vh full-width responsive layout
+         - Seamless top-white to warm-brown gradient overlay
+         - 3D parallax mouse & gyroscope tilt on background couple portrait
+         - Editorial frosted glass floating showcase card
+         - Refined minimal countdown ribbon
+         ============================================== -->
+    <section class="hero-fullscreen-stage" id="heroStage">
+
+      <!-- 3D Moving Layer: Couple Background Image -->
+      <div class="hero-bg-parallax" id="parallaxBg">
+        <img src="images/background.png" alt="Anjali & Akshay Couple Portrait" class="couple-full-img" />
+      </div>
+
+      <!-- Gradient Light-to-Dark Colorwash: White on Top to Deep Warm Brown at Base -->
+      <div class="hero-gradient-overlay"></div>
+
+      <!-- Floating Glass Finish Content Board -->
+      <div class="hero-glass-dock">
+
+        <!-- Sacred Sanskrit Invocation -->
+        <div class="sacred-header">
+          <div class="om-mark">॥ Shree Ganeshaya Namah ॥</div>
+          <p class="mantra-editorial">
+            “May this sacred thread of matrimony
+            be the foundation of a beautiful life together.
+            O blessed one, I tie this sacred bond around your neck,
+            may you live a hundred autumns filled with love and happiness.”
+          </p>
+        </div>
+
+        <!-- Editorial Couple Headline -->
+        <div class="hero-editorial-center">
+          <span class="wedding-stamp">The Wedding Of</span>
+          <h1 class="couple-title-headline"> Akshay <span class="ampersand">&amp;</span> Anjali</h1>
+
+          <div class="family-lineage-row">
+            <div class="lineage-col">
+              <span class="role-tag">Groom</span>
+              <p>S/o Mr. Sunilkumar J. &amp; Mrs. Sreelakha G.</p>
+            </div>
+            <div class="lineage-divider"></div>
+            <div class="lineage-col">
+              <span class="role-tag">Bride</span>
+              <p>D/o Mr. Unnikrishnan &amp; Mrs. Malini</p>
+            </div>
+          </div>
+
+          <div class="date-badge-pill">
+            <i class="fa-regular fa-calendar-star"></i>
+            <span>Sunday, 25 October 2026</span>
+          </div>
+
+          <p class="sub-note">
+            Two souls uniting under sacred vows. We request the blessing of your presence.
+          </p>
+
+          <!-- Minimal Floating Countdown Pills -->
+          <div class="countdown-minimal-strip">
+            <div class="pill-counter">
+              <span class="num" id="dBox">00</span>
+              <span class="tag">Days</span>
+            </div>
+            <span class="colon-sep">:</span>
+            <div class="pill-counter">
+              <span class="num" id="hBox">00</span>
+              <span class="tag">Hours</span>
+            </div>
+            <span class="colon-sep">:</span>
+            <div class="pill-counter">
+              <span class="num" id="mBox">00</span>
+              <span class="tag">Mins</span>
+            </div>
+            <span class="colon-sep">:</span>
+            <div class="pill-counter">
+              <span class="num" id="sBox">00</span>
+              <span class="tag">Secs</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Bottom Atmospheric Fog Base -->
+      <div class="cloud-deck">
+        <div class="cloud-drift-1"></div>
+        <div class="cloud-drift-2"></div>
+      </div>
+
+    </section>
+
+    <!-- ==============================================
+     SESSION: DUAL-TRACK GRADIENT TEXT MARQUEE
+     - Infinite smooth marquee scrolling
+     - Shimmering metallic rose-gold gradient text
+     - Pause-on-hover interaction
+     ============================================== -->
+    <section class="marquee-session" aria-label="Couple Name Scroll">
+      <!-- Track 1: Leftward Infinite Scroll -->
+      <div class="marquee-track track-left">
+        <div class="marquee-content">
+          <span class="gradient-name">Anjali &amp; Akshay</span>
+          <span class="marquee-separator">✦</span>
+          <span class="gradient-name">Anjali &amp; Akshay</span>
+          <span class="marquee-separator">✦</span>
+          <span class="gradient-name">Anjali &amp; Akshay</span>
+          <span class="marquee-separator">✦</span>
+        </div>
+        <!-- Duplicate node for seamless CSS infinite loop -->
+        <div class="marquee-content" aria-hidden="true">
+          <span class="gradient-name">Anjali &amp; Akshay</span>
+          <span class="marquee-separator">✦</span>
+          <span class="gradient-name">Anjali &amp; Akshay</span>
+          <span class="marquee-separator">✦</span>
+          <span class="gradient-name">Anjali &amp; Akshay</span>
+          <span class="marquee-separator">✦</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==============================================
+         SESSION 3: CEREMONY EVENTS TIMELINE
+         - Multi-column scrapbook grid for ceremonies
+         - Timestamps, venue names, and ceremony notes
+         ============================================== -->
+    <div class="section-eyebrow">Auspicious Gatherings</div>
+    <h2 class="section-headline">Wedding Ceremonies</h2>
+
+    <div class="events-masonry">
+      <div class="event-scrapbook" style="border-color: var(--gold-spark);">
+        <span class="event-time-tag" style="background: rgba(244, 208, 111, 0.2);">Sunday, Nov 15 • 11.45AM to 12.15
+          PM</span>
+        <h3 style="color: var(--gold-spark);">The Muhurtham (Wedding)</h3>
+        <p><i class="fa-solid fa-location-dot" style="color:var(--gold-spark); margin-right:6px;"></i> KG Convention
+          Centre, Punalur</p>
+        <p>Sacred rituals, Kanyadanam & Mangalya Dharanam.</p>
+      </div>
+      <!-- <div class="event-scrapbook">
+        <span class="event-time-tag">Friday, Oct 23 • 10:00 AM</span>
+        <h3>Engagement Ceremony</h3>
+        <p><i class="fa-solid fa-location-dot" style="color:var(--terracotta); margin-right:6px;"></i> The Heritage Grand Hall</p>
+        <p>Exchange of rings followed by traditional feast.</p>
+      </div>
+
+      <div class="event-scrapbook">
+        <span class="event-time-tag">Saturday, Oct 24 • 05:30 PM</span>
+        <h3>Mehendi & Sangeet Night</h3>
+        <p><i class="fa-solid fa-location-dot" style="color:var(--terracotta); margin-right:6px;"></i> Courtyard Open Lawn</p>
+        <p>Henna artistry, rhythmic folk melodies, and dinner.</p>
+      </div>
+
+  
+
+      <div class="event-scrapbook">
+        <span class="event-time-tag">Sunday, Oct 25 • 06:30 PM</span>
+        <h3>Reception Soirée</h3>
+        <p><i class="fa-solid fa-location-dot" style="color:var(--terracotta); margin-right:6px;"></i> Crystal Ballroom</p>
+        <p>An evening of celebration, banquet dining, and wishes.</p>
+      </div> -->
+    </div>
+
+    <!-- ==============================================
+         SESSION 4: MOMENTS PHOTO GALLERY
+         - Polaroid-style responsive picture grid
+         ============================================== -->
+    <div style="margin-top: 60px;">
+      <div class="section-eyebrow">Snapshots</div>
+      <h2 class="section-headline">Captured Moments</h2>
+      <div class="gallery-masonry">
+        <div class="gallery-polaroid">
+          <img src="images/Akshay & Anjali-2.png"
+            alt="Moment 1" />
+        </div>
+        <div class="gallery-polaroid">
+          <img  src="images/Akshay & Anjali-1.png"
+            alt="Moment 2" />
+        </div>
+        <div class="gallery-polaroid">
+          <img  src="images/Akshay & Anjali-3.png"
+            alt="Moment 3" />
+        </div>
+      </div>
+    </div>
+
+    <!-- ==============================================
+     SESSION: DUAL-TRACK GRADIENT TEXT MARQUEE
+     - Infinite smooth marquee scrolling
+     - Shimmering metallic rose-gold gradient text
+     - Pause-on-hover interaction
+     ============================================== -->
+    <section class="marquee-session" aria-label="Couple Name Scroll">
+
+      <!-- Track 2: Reverse (Rightward) Outline Script Scroll -->
+      <div class="marquee-track track-right">
+        <div class="marquee-content reverse">
+          <span class="gradient-script">Anjali &amp; Akshay</span>
+          <span class="marquee-separator-script">❧</span>
+          <span class="gradient-script">Anjali &amp; Akshay</span>
+          <span class="marquee-separator-script">❧</span>
+          <span class="gradient-script">Anjali &amp; Akshay</span>
+          <span class="marquee-separator-script">❧</span>
+        </div>
+        <!-- Duplicate node for seamless CSS infinite loop -->
+        <div class="marquee-content reverse" aria-hidden="true">
+          <span class="gradient-script">Anjali &amp; Akshay</span>
+          <span class="marquee-separator-script">❧</span>
+          <span class="gradient-script">Anjali &amp; Akshay</span>
+          <span class="marquee-separator-script">❧</span>
+          <span class="gradient-script">Anjali &amp; Akshay</span>
+          <span class="marquee-separator-script">❧</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ==============================================
+         SESSION 5: VENUE & EMBEDDED MAP
+         - Centered layout with responsive embedded map
+         - Interactive Google Maps redirect button
+         ============================================== -->
+    <div class="action-board single-centered">
+      <div class="action-panel venue-panel">
+        <i class="fa-solid fa-map-pin venue-icon"></i>
+        <h3 class="venue-title">Find The Venue</h3>
+        <p class="venue-address">
+          Sri Raja Rajeshwari Kalyana Mandapam, MG Road, Kochi, Kerala
+        </p>
+
+        <!-- Embedded Interactive Google Map -->
+        <div class="map-container">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1179.7771470976152!2d76.91482039218262!3d9.01088105577429!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b0674264ad0a9d1%3A0xce5e3fbb323bc7ef!2sK%20G%20Convention%20Centre%2C%20Punalur!5e1!3m2!1sen!2sin!4v1789614905885!5m2!1sen!2sin"
+            loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+
+        <a class="btn-action-primary btn-location" href="https://maps.app.goo.gl/U96ePwXDm6RmiYNu5" target="_blank"
+          rel="noopener">
+          <i class="fa-solid fa-diamond-turn-right"></i> Open in Google Maps
+        </a>
+      </div>
+    </div>
+
+    <!-- ==============================================
+         SESSION 6: SOCIAL SHARE & QR SCANNER
+         - Direct WhatsApp share & clipboard copy buttons
+         - Dynamically rendered QR code linking to current page
+         ============================================== -->
+    <div class="share-row">
+      <button class="btn-pill-ghost" id="shareWa">
+        <i class="fa-brands fa-whatsapp"></i> Share Card
+      </button>
+      <button class="btn-pill-ghost" id="copyLink">
+        <i class="fa-regular fa-copy"></i> Copy Link
+      </button>
+    </div>
+
+ 
+
+  </main>
+
+  <!-- ==============================================
+     SESSION: EDITORIAL FOOTER
+     - Couple initials monogram
+     - Couple headline & hashtag
+     - Family gratitude and blessing signature
+     ============================================== -->
+<footer class="wedding-journal-footer">
+  <div class="footer-divider-line">
+    <span class="footer-gem">✦</span>
+  </div>
+
+  <div class="footer-monogram">A &amp; A</div>
+  <h2 class="footer-couple-name">Anjali  &amp; Akshay</h2>
+  
+  <p class="footer-hashtag">#AnjaliWedsAkshay • #ForeverBegins</p>
+  
+  <div class="footer-details-strip">
+    <span>25 October 2026</span>
+    <span class="dot">•</span>
+    <span>Kochi, Kerala</span>
+  </div>
+
+  <p class="footer-blessing-note">
+    With love and gratitude from the families of Sunilkumar &amp; Unnikrishnan 
+  </p>
+</footer>
+
+  <!-- External Script -->
+  <script src="script.js"></script>
+</body>
+
+</html>
