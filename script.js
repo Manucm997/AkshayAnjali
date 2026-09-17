@@ -102,74 +102,88 @@
        }
      });
    }
-/* ========================================================
-   SESSION 2: FULLSCREEN PARALLAX IMAGE TILT (MOBILE & DESKTOP)
+/*/* ========================================================
+   SESSION 2: ROBUST MOBILE & DESKTOP 3D PARALLAX
    ======================================================== */
-   const parallaxBg = document.getElementById('parallaxBg');
-   const heroStage = document.getElementById('heroStage');
-   const openInviteBtn = document.getElementById('openInviteBtn');
-   
-   if (heroStage && parallaxBg) {
-     // 1. Desktop Mouse Movement
-     heroStage.addEventListener('mousemove', (e) => {
-       if (window.innerWidth < 768) return;
-       const rect = heroStage.getBoundingClientRect();
-       const x = (e.clientX - rect.left - rect.width / 2) / 25;
-       const y = (e.clientY - rect.top - rect.height / 2) / 25;
-       
-       parallaxBg.style.transform = `scale(1.08) translate3d(${-x * 1.5}px, ${-y * 1.5}px, 0) rotateY(${x * 0.4}deg) rotateX(${-y * 0.4}deg)`;
-     });
-   
-     heroStage.addEventListener('mouseleave', () => {
-       parallaxBg.style.transform = `scale(1) translate3d(0, 0, 0) rotateY(0deg) rotateX(0deg)`;
-     });
-   
-     // 2. Gyroscope Handler
-     const handleOrientation = (e) => {
-       // Check explicitly against null/undefined because 0 is a valid angle
-       if (e.gamma === null || e.beta === null) return;
-   
-       const tiltX = Math.min(Math.max(e.gamma / 2.5, -15), 15);
-       // 45deg is roughly the average holding angle of a phone
-       const tiltY = Math.min(Math.max((e.beta - 45) / 2.5, -15), 15);
-   
-       parallaxBg.style.transform = `scale(1.12) translate3d(${-tiltX * 2}px, ${-tiltY * 2}px, 0) rotateY(${tiltX * 0.4}deg) rotateX(${-tiltY * 0.4}deg)`;
-     };
-   
-     // 3. Permission Request & Initialization
-     const initMobileOrientation = () => {
-       if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-         // iOS 13+ requires explicit user click authorization
-         DeviceOrientationEvent.requestPermission()
-           .then((permissionState) => {
-             if (permissionState === 'granted') {
-               window.addEventListener('deviceorientation', handleOrientation, true);
-             }
-           })
-           .catch(console.error);
-       } else if ('ondeviceorientation' in window) {
-         // Android / Non-iOS standard devices
-         window.addEventListener('deviceorientation', handleOrientation, true);
-       }
-     };
-   
-     // Bind permission trigger to user opening the invitation envelope
-     if (openInviteBtn) {
-       openInviteBtn.addEventListener('click', initMobileOrientation, { once: true });
-     } else {
-       window.addEventListener('click', initMobileOrientation, { once: true });
-     }
-   
-     // 4. Touch Pan Fallback (for devices where sensors are disabled/blocked)
-     heroStage.addEventListener('touchmove', (e) => {
-       if (e.touches.length > 0) {
-         const touch = e.touches[0];
-         const x = (touch.clientX - window.innerWidth / 2) / 20;
-         const y = (touch.clientY - window.innerHeight / 2) / 20;
-         parallaxBg.style.transform = `scale(1.1) translate3d(${-x}px, ${-y}px, 0)`;
-       }
-     }, { passive: true });
-   }
+const parallaxBg = document.getElementById('parallaxBg');
+const heroStage = document.getElementById('heroStage');
+// Support both button IDs used across steps
+const openBtnTrigger = document.getElementById('openInvitationBtn') || document.getElementById('openInviteBtn');
+
+if (heroStage && parallaxBg) {
+  let initialBeta = null;
+  let initialGamma = null;
+  let isGyroActive = false;
+
+  // 1. Desktop Mouse Movement
+  heroStage.addEventListener('mousemove', (e) => {
+    if (window.innerWidth < 768) return;
+    const rect = heroStage.getBoundingClientRect();
+    const x = (e.clientX - rect.left - rect.width / 2) / 20;
+    const y = (e.clientY - rect.top - rect.height / 2) / 20;
+    
+    parallaxBg.style.transform = `scale(1.1) translate3d(${-x * 1.6}px, ${-y * 1.6}px, 0) rotateY(${x * 0.35}deg) rotateX(${-y * 0.35}deg)`;
+  });
+
+  heroStage.addEventListener('mouseleave', () => {
+    parallaxBg.style.transform = `scale(1) translate3d(0, 0, 0) rotateY(0deg) rotateX(0deg)`;
+  });
+
+  // 2. Mobile Gyroscope Handler
+  const handleOrientation = (e) => {
+    if (e.gamma === null || e.beta === null) return;
+    isGyroActive = true;
+
+    // Calibrate initial resting angle on first read
+    if (initialBeta === null) {
+      initialBeta = e.beta;
+      initialGamma = e.gamma;
+      return;
+    }
+
+    // Relative delta based on natural hold angle
+    const deltaX = Math.min(Math.max((e.gamma - initialGamma), -25), 25);
+    const deltaY = Math.min(Math.max((e.beta - initialBeta), -25), 25);
+
+    // Apply amplified 3D translation & tilt
+    requestAnimationFrame(() => {
+      parallaxBg.style.transform = `scale(1.14) translate3d(${-deltaX * 2.2}px, ${-deltaY * 2.2}px, 0) rotateY(${deltaX * 0.6}deg) rotateX(${-deltaY * 0.6}deg)`;
+    });
+  };
+
+  // 3. Permission Request & Mobile Initialization
+  const requestGyroPermission = () => {
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+      // iOS 13+ requires explicit authorization from a direct click
+      DeviceOrientationEvent.requestPermission()
+        .then((permissionState) => {
+          if (permissionState === 'granted') {
+            window.addEventListener('deviceorientation', handleOrientation, true);
+          }
+        })
+        .catch(console.error);
+    } else {
+      // Standard Android / Chrome / Mobile Firefox
+      window.addEventListener('deviceorientation', handleOrientation, true);
+    }
+  };
+
+  // Bind authorization to both the open button and a fallback tap
+  if (openBtnTrigger) {
+    openBtnTrigger.addEventListener('click', requestGyroPermission, { once: true });
+  }
+  document.body.addEventListener('touchstart', requestGyroPermission, { once: true });
+
+  // 4. Touch Pan Fallback (Only fires if gyroscope is unavailable/blocked)
+  window.addEventListener('touchmove', (e) => {
+    if (isGyroActive || e.touches.length === 0) return;
+    const touch = e.touches[0];
+    const x = (touch.clientX - window.innerWidth / 2) / 15;
+    const y = (touch.clientY - window.innerHeight / 2) / 15;
+    
+    parallaxBg.style.transform = `scale(1.12) translate3d(${-x * 1.5}px, ${-y * 1.5}px, 0) rotateY(${x * 0.4}deg) rotateX(${-y * 0.4}deg)`;
+  }, { passive: true });
+}
    /* ========================================================
       SESSION 3: DYNAMIC COUNTDOWN TIMER
       - Counts down live to October 25, 2026, 09:15 AM
