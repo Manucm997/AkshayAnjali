@@ -1,3 +1,4 @@
+
 /* ========================================================
    SESSION 0: ROOT VARIABLES & GLOBAL RESET
    ======================================================== */
@@ -1409,3 +1410,225 @@
       font-size: 1.25rem;
     }
   }
+
+  
+
+
+/* Keep both venue cards in one row */
+.venue-content {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 25px;
+  width: 100%;
+  align-items: stretch;
+}
+
+.venue-content > .venue-details,
+.venue-content > .reception-details {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 650px) {
+  .venue-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =====================================
+   PREMIUM RECEPTION INVITATION CARD
+===================================== */
+
+.reception-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 30px 25px;
+  min-height: 450px;
+  border: 1px solid rgba(238, 197, 127, 0.2);
+  background: linear-gradient(
+    145deg,
+    rgba(255,255,255,0.09),
+    rgba(255,255,255,0.025)
+  );
+  border-radius: 22px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative background glow */
+.reception-details::before {
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  top: -100px;
+  right: -90px;
+  background: rgba(232, 183, 105, 0.12);
+  filter: blur(65px);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.reception-top-icon {
+  width: 65px;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(242, 200, 120, 0.13);
+  border: 1px solid rgba(242, 200, 120, 0.4);
+  color: #f5d080;
+  font-size: 27px;
+  margin-bottom: 18px;
+}
+
+.reception-label {
+  color: #f0c879;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  margin-bottom: 12px;
+}
+
+.reception-title {
+  color: #fff5ec;
+  font-family: Georgia, serif;
+  font-size: clamp(24px, 3vw, 32px);
+  margin: 0 0 8px;
+}
+
+.reception-subtitle {
+  color: #e6b9a6;
+  font-size: 15px;
+  font-style: italic;
+}
+
+.reception-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  width: 75%;
+  margin: 20px 0 25px;
+  color: #f0c879;
+}
+
+.reception-divider span {
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(240,200,121,.7)
+  );
+}
+
+.reception-divider span:last-child {
+  transform: rotate(180deg);
+}
+
+/* Date and Time */
+.reception-schedule {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.schedule-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 15px 18px;
+  text-align: left;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.09);
+}
+
+.schedule-icon {
+  width: 43px;
+  height: 43px;
+  min-width: 43px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(241, 197, 116, 0.13);
+  border-radius: 12px;
+  color: #f3cd7e;
+  font-size: 19px;
+}
+
+.schedule-text {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.schedule-text small {
+  color: #d9a994;
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+.schedule-text strong {
+  color: #fff5ec;
+  font-size: 17px;
+}
+
+/* Invitation Message */
+.reception-message {
+  color: #e8bdab;
+  font-size: 15px;
+  line-height: 1.8;
+  max-width: 340px;
+  margin: 0 auto 25px;
+}
+
+.reception-bottom {
+  width: 100%;
+  margin-top: auto;
+}
+
+.reception-bottom .btn-location {
+  width: 100%;
+  min-height: 60px;
+  border-radius: 50px;
+}
+
+.reception-footer {
+  color: #d9ad99;
+  font-size: 12px;
+  margin-top: 20px;
+}
+
+.reception-footer i {
+  color: #e9bb72;
+  margin-right: 5px;
+}
+
+/* Mobile */
+@media (max-width: 650px) {
+  .reception-details {
+    min-height: auto;
+    padding: 30px 20px;
+  }
+
+  .reception-title {
+    font-size: 27px;
+  }
+
+  .reception-schedule {
+    gap: 12px;
+  }
+}
+
